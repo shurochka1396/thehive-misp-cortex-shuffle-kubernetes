@@ -1,0 +1,39 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+commonLabels:
+  app: elasticsearch
+
+images:
+  - name: elasticsearch
+    newTag: 7.9.3
+    newName: elasticsearch
+  - name: busybox
+    newTag: 1.31.1
+    newName: busybox
+
+resources:
+  - cluster/loadbalancer.yaml
+
+  - cluster/master/elasticsearch-master-svc.yaml
+  - cluster/master/elasticsearch-master-sts.yaml
+
+  - cluster/data/elasticsearch-data-svc.yaml
+  - cluster/data/elasticsearch-data-sts.yaml
+
+  - cluster/client/elasticsearch-client-svc.yaml
+  - cluster/client/elasticsearch-client-sts.yaml
+
+configMapGenerator:
+  - name: elasticsearch.yml
+    files:
+      - elastic_conf/elasticsearch.yml
+  - name: jvm.options
+    files:
+      - elastic_conf/jvm.options
+  - name: log4j2.properties
+    files:
+      - elastic_conf/log4j2.properties
+  - name: tmpdir
+    literals:
+      - tmpdir=/tmp

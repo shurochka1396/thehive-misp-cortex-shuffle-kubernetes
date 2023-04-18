@@ -1,0 +1,25 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+commonLabels:
+  app: kibana
+
+images:
+  - name: kibana
+    newTag: 7.9.3
+    newName: kibana
+  - name: busybox
+    newTag: 1.31.1
+    newName: busybox
+
+resources:
+  - cluster/loadbalancer.yaml
+
+  - cluster/kibana/kibana-deploy.yaml
+  - cluster/kibana/kibana-svc.yaml
+
+
+configMapGenerator:
+  - name: kibana.yml
+    files:
+      - kibana_conf/kibana.yml

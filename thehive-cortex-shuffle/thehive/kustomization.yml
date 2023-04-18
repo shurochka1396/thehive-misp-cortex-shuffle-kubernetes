@@ -1,0 +1,30 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+images:
+  - name: cassandra
+    newTag: 4.0.0
+    newName: cassandra
+
+  - name: elasticsearch
+    newTag: 7.17.1
+    newName: elasticsearch
+
+
+resources:
+  - service/podreader-svc.yaml
+  - service/rolebinding-svc.yaml
+  - service/serviceaccount-svc.yaml
+
+  - elasticsearch/elasticsearch-sts.yaml
+  - elasticsearch/elasticsearch-svc.yaml
+
+  - cassandra/cassandra-sts.yaml
+  - cassandra/cassandra-svc.yaml
+
+  - thehive/thehive-sts.yaml
+  - thehive/thehive-svc.yaml
+
+  - minio/minio-sts.yaml
+  - minio/minio-svc.yaml
+

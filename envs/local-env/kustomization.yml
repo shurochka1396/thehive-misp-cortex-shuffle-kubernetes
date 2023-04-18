@@ -1,0 +1,4 @@
+bases:
+  - ../../thehive
+patches:
+  - storage-class.yaml

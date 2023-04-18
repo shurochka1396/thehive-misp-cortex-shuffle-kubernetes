@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: thehive
+  namespace: thehive
+  labels:
+    app: thehive
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: thehive
+  template:
+    metadata:
+      labels:
+        app: thehive
+    spec:
+      serviceAccountName: thehive
+      containers:
+        - name: thehive
+          image: strangebee/thehive:latest
+          command:
+            - "/opt/thehive/entrypoint"
+            - "--secret"
+            - "SuperSecretForKubernetes"
+            - "--cql-hostnames"
+            - "cassandra"
+            - "--no-cql-wait"
+            - "--no-config-cortex"
+            - "--kubernetes"
+            - "--index-backend"
+            - "elasticsearch"
+            - "--es-hostnames"
+            - "thehive-elasticsearch"
+            - "--s3-endpoint"
+            - "http://minio:9000"
+            - "--s3-access-key"
+            - "minioadmin"
+            - "--s3-secret-key"
+            - "minioadmin"
+            - "--s3-use-path-access-style"
+            - "--cluster-min-nodes-count"
+            - "0"
+          ports:
+            - containerPort: 9000
+              name: http
+          env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+          resources:
+            limits:
+              cpu: "1"
+              memory: 2Gi
+            requests:
+              cpu: "500m"
+              memory: 512Mi
+          startupProbe:
+            httpGet:
+              path: /api/v1/status/public
+              port: 9000
+            failureThreshold: 300
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /api/v1/status/public
+              port: 9000
+            periodSeconds: 10
