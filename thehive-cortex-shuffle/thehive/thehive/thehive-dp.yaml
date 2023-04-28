@@ -56,14 +56,14 @@ spec:
             requests:
               cpu: "500m"
               memory: 512Mi
-          startupProbe:
-            httpGet:
-              path: /api/v1/status/public
-              port: 9000
-            failureThreshold: 300
-            periodSeconds: 10
-          livenessProbe:
-            httpGet:
-              path: /api/v1/status/public
-              port: 9000
-            periodSeconds: 10
+          # startupProbe:
+          #   httpGet:
+          #     path: /api/v1/status/public
+          #     port: 9000
+          #   failureThreshold: 300
+          #   periodSeconds: 10
+          # livenessProbe:
+          #   httpGet:
+          #     path: /api/v1/status/public
+          #     port: 9000
+          #   periodSeconds: 10

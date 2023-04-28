@@ -22,7 +22,7 @@ resources:
   - cassandra/cassandra-sts.yaml
   - cassandra/cassandra-svc.yaml
 
-  - thehive/thehive-sts.yaml
+  - thehive/thehive-dp.yaml
   - thehive/thehive-svc.yaml
 
   - minio/minio-sts.yaml

@@ -1,4 +1,4 @@
 bases:
-  - ../../thehive
+  - ../../thehive-cortex-shuffle
 patches:
   - storage-class.yaml

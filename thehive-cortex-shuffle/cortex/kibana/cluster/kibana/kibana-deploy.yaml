@@ -34,22 +34,22 @@ spec:
           env:
             - name: server.name
               value: '${HOSTNAME}'
-          livenessProbe:
-            exec:
-              command:
-                - cat
-                - /tmp/healthy
-            initialDelaySeconds: 5
-            periodSeconds: 5
-          readinessProbe:
-            failureThreshold: 3
-            initialDelaySeconds: 60
-            periodSeconds: 10
-            successThreshold: 1
-            httpGet:
-              path: /api/status
-              port: 5601
-            timeoutSeconds: 5
+          # livenessProbe:
+          #   exec:
+          #     command:
+          #       - cat
+          #       - /tmp/healthy
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 5
+          # readinessProbe:
+          #   failureThreshold: 3
+          #   initialDelaySeconds: 60
+          #   periodSeconds: 10
+          #   successThreshold: 1
+          #   httpGet:
+          #     path: /api/status
+          #     port: 5601
+          #   timeoutSeconds: 5
           resources:
             limits:
               cpu: '1'

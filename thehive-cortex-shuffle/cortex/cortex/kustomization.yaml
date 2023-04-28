@@ -4,13 +4,21 @@ kind: Kustomization
 commonLabels:
   app: cortex
 
-images:
-  - name: cortex
-    newTag: 3.1.7
-    newName: cortex
-
 resources:
-  - cluster/loadbalancer.yaml
+  - storage/cortex-pv.yaml
+  - storage/cortex-pvc.yaml
 
-  - cluster/cortex/cortex-sts.yaml
-  - cluster/cortex/cortex-svc.yaml
+  - conf/cortex-cm.yaml
+
+  - secrets/cortex-auth.yaml
+  - secrets/cortex-sc.yaml
+
+  - manage/cortex-rb.yaml
+  - manage/cortex-sa.yaml
+  - manage/cortex-rl.yaml
+
+  - service/cortex-svs.yaml
+  - service/loadbalancer.yaml
+
+  - cortex-dp.yaml
+  

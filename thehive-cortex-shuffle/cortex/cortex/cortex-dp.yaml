@@ -1,0 +1,108 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: cortex
+  name: release-name-cortex
+  labels:
+    app: cortex
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cortex
+  template:
+    metadata:
+      labels:
+        app: cortex
+    spec:
+      serviceAccountName: service123
+      securityContext:
+        {}
+      volumes:
+        - name: job-io
+          persistentVolumeClaim:
+            claimName: "release-name-cortex-job-io"
+        - name: config-templates
+          configMap:
+            name: release-name-cortex-etc-c-tmpl
+        - name: etc-cortex
+          emptyDir: {}
+        #
+        
+      initContainers:
+        # This templating, done at runtime rather than install time,
+        # is done so that the non-secret parts of the config file can
+        # be more easily seen.
+        - name: config-templates
+          image: busybox
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: config-templates
+              mountPath: /tmp/templates
+            - name: etc-cortex
+              mountPath: /tmp/cortex
+          # For each @@FOO@@ in the config file set up in the
+          # configmap, there must be a FOO in this env. Values should
+          # be shell-safe, natch.
+          env:
+            - name: PLAY_HTTP_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: "release-name-cortex-play-secret"
+                  key: secret
+            # There are no private keys to protect in this trust
+            # store, so its password need not actually secure it.
+            - name: ES_TRUST_STORE_PASSWORD
+              value: changeit
+            # - name: ES_PASSWORD
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: "cortex"
+            #       key: "elasticsearch"
+          command:
+            - sh
+            - -c
+            - |
+              cd /tmp/cortex; for x in /tmp/templates/*; do
+                  if echo "$x" | grep ".tmpl\$"; then
+                      out=$$(basename $x | sed "s/.tmpl$//")
+                      cat $x | \
+                         sed "s/@@PLAY_HTTP_SECRET_KEY@@/$PLAY_HTTP_SECRET_KEY/g" | \
+                         sed "s/@@ES_TRUST_STORE_PASSWORD@@/$ES_TRUST_STORE_PASSWORD/g" | \
+                      cat > "$out"
+                  else
+                      cp $x $(basename $x)
+                  fi
+                done
+      containers:
+        - name: cortex
+          securityContext:
+            {}
+          image: jaredjennings/cortex
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: etc-cortex
+              mountPath: /etc/cortex
+            - name: job-io
+              mountPath: /tmp/cortex-jobs
+            # - name: es-trust-store
+            #   mountPath: "/etc/cortex/es-trust"
+            
+            
+          env:
+            # we did the config in our configmap and initcontainers
+            - name: no_config
+              value: "1"
+          ports:
+            - name: http
+              containerPort: 9001
+              protocol: TCP
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          resources: {}

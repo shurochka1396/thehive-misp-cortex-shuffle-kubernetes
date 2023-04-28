@@ -4,11 +4,14 @@ path:
 
 cluster.name: elasticsearch
 
+# xpack.security.enabled: true
+
 network.host: 0.0.0.0
 
 cluster.initial_master_nodes:
   - elasticsearch-master-0.elasticsearch-master
   - elasticsearch-master-1.elasticsearch-master
+
 discovery.seed_hosts:
   - elasticsearch-master
   - elasticsearch-data
