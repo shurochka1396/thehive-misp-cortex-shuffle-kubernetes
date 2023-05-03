@@ -4,6 +4,6 @@ kind: Kustomization
 resources:
 
   - cortex/
-  - kibana/
+  # - kibana/
   - elasticsearch/
 

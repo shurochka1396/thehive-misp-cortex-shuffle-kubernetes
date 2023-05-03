@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: shuffle-orborus
+  name: shuffle-orborus
+spec:
+  podManagementPolicy: OrderedReady
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: shuffle-orborus
+  serviceName: shuffle-orborus
+  template:
+    metadata:
+      labels:
+        app: shuffle-orborus
+    spec:
+      containers:
+      - env:
+        - name: SHUFFLE_APP_SDK_VERSION
+          value: 1.1.4
+        - name: SHUFFLE_WORKER_VERSION
+          value: 1.1.4
+        - name: ORG_ID
+          value: Shuffle
+        - name: ENVIRONMENT_NAME
+          value: Shuffle
+        - name: BASE_URL
+          value: http://shuffle-backend:5001
+        - name: DOCKER_API_VERSION
+          value: '1.40'
+        - name: SHUFFLE_ORBORUS_EXECUTION_TIMEOUT
+          value: '600'
+        - name: SHUFFLE_BASE_IMAGE_NAME
+          value: frikky
+        - name: SHUFFLE_BASE_IMAGE_REGISTRY
+          value: ghcr.io
+        - name: RUNNING_MODE
+          value: kubernetes
+        - name: SHUFFLE_BASE_IMAGE_TAG_SUFFIX
+          value: "-1.1.4"
+        - name: CLEANUP
+          value: 'true'
+        image: ghcr.io/frikky/shuffle-orborus:latest
+        imagePullPolicy: IfNotPresent
+        name: shuffle-orborus
+        volumeMounts:
+        - name: hst-ph
+          mountPath: /var/run/docker.sock`
+      hostname: shuffle-orborus
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 0
+      volumes:
+      - name: hst-ph
+        hostPath:
+          path: /var/run/docker.sock
+  volumeClaimTemplates: []

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: shuffle-frontend
+  name: shuffle-frontend
+spec:
+  ports:
+  - name: nameme-01
+    port: 3001
+    protocol: TCP
+    targetPort: 80
+  - name: nameme-11
+    port: 3443
+    protocol: TCP
+    targetPort: 443
+  selector:
+    app: shuffle-frontend
+  type: NodePort
