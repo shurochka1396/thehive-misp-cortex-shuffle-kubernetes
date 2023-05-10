@@ -16,4 +16,5 @@ spec:
     targetPort: 443
   selector:
     app: shuffle-frontend
-  type: NodePort
+  type: LoadBalancer
+

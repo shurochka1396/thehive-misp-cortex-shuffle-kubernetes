@@ -1,3 +1,10 @@
+# Copyright (C) 2019, Wazuh Inc.
+#
+# This program is a free software; you can redistribute it
+# and/or modify it under the terms of the GNU General Public
+# License (version 2) as published by the FSF - Free Software
+# Foundation.
+
 # Indexer StatefulSet: 3 master nodes.
 
 apiVersion: apps/v1
@@ -52,11 +59,14 @@ spec:
             privileged: true
       containers:
         - name: wazuh-indexer
-          image: 'wazuh/wazuh-indexer:4.6.0'
+          image: 'wazuh/wazuh-indexer:4.4.1'
           resources:
             limits:
-              cpu: 500m
+              cpu: 400m
               memory: 1564Mi
+            requests:
+              cpu: 300m
+              memory: 1Gi
           env:
             - name: OPENSEARCH_JAVA_OPTS
               value: '-Xms1g -Xmx1g -Dlog4j2.formatMsgNoLookups=true'
