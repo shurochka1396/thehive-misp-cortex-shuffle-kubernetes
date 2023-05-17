@@ -28,3 +28,5 @@ resources:
   - minio/minio-sts.yaml
   - minio/minio-svc.yaml
 
+  - loadbalancer.yaml
+

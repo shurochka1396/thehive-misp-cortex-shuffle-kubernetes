@@ -3,9 +3,15 @@ kind: Service
 metadata:
   labels:
     app: thehive
-  name: thehive
+  name: thehive-load
   namespace: thehive
 spec:
+  # type: NodePort
+  # ports:
+  #   - port: 9000
+  #     nodePort: 30001
+  # selector:
+  #   app: thehive
   ports:
     - name: http
       port: 9000
@@ -13,3 +19,4 @@ spec:
       targetPort: 9000
   selector:
     app: thehive
+  type: LoadBalancer

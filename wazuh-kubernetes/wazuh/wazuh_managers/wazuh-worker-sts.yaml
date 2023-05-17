@@ -44,7 +44,8 @@ spec:
         fsGroup: 101
       containers:
         - name: wazuh-manager
-          image: 'wazuh/wazuh-manager:4.4.1'
+          image: docker.io/library/wazuh-managet_thehive_integration
+          imagePullPolicy: Never
           resources:
             limits:
               cpu: 200m

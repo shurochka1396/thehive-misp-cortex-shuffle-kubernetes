@@ -9,4 +9,4 @@ resources:
 
   - cortex/
   - thehive/
-  - shuffle
+  # - shuffle

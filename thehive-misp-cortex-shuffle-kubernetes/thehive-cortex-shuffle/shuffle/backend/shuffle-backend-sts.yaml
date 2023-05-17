@@ -28,8 +28,8 @@ spec:
           value: /shuffle-files
         # - name: ORG_ID
         #   value: Shuffle
-        # - name: SHUFFLE_APP_DOWNLOAD_LOCATION
-        #   value: https://github.com/frikky/shuffle-apps
+        - name: SHUFFLE_APP_DOWNLOAD_LOCATION
+          value: https://github.com/frikky/shuffle-apps
         # - name: SHUFFLE_DEFAULT_USERNAME
         #   value: admin
         # - name: SHUFFLE_DEFAULT_PASSWORD

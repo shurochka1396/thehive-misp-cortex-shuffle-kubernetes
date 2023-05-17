@@ -20,9 +20,9 @@ spec:
       containers:
       - env:
         - name: SHUFFLE_APP_SDK_VERSION
-          value: 1.1.4
+          value: 1.1.0
         - name: SHUFFLE_WORKER_VERSION
-          value: 1.1.4
+          value: 1.1.0
         - name: ORG_ID
           value: Shuffle
         - name: ENVIRONMENT_NAME
@@ -40,7 +40,7 @@ spec:
         - name: RUNNING_MODE
           value: kubernetes
         - name: SHUFFLE_BASE_IMAGE_TAG_SUFFIX
-          value: "-1.1.4"
+          value: "-1.1.0"
         - name: CLEANUP
           value: 'true'
         image: ghcr.io/frikky/shuffle-orborus:latest
@@ -48,7 +48,7 @@ spec:
         name: shuffle-orborus
         volumeMounts:
         - name: hst-ph
-          mountPath: /var/run/docker.sock`
+          mountPath: /var/run/docker.sock
       hostname: shuffle-orborus
       restartPolicy: Always
       terminationGracePeriodSeconds: 0
