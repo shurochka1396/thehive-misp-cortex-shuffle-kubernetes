@@ -37,8 +37,16 @@ spec:
               cpu: "500m"
               memory: 256Mi
           volumeMounts:
-            - name: s3-data
+            - name: thehive-s3
               mountPath: /data
-      volumes:
-        - name: s3-data
-          emptyDir: {}
+  volumeClaimTemplates:
+    - metadata:
+        name: thehive-s3
+        namespace: thehive
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: thehive-storage
+        resources:
+          requests:
+            storage: 500Mi          

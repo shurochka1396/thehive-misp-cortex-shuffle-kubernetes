@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   namespace: cortex
-  name: "release-name-cortex-etc-c-tmpl"
+  name: "vault-cortex-etc-c-tmpl"
 data:
   
   # Avoid getting configuration, with secrets, catted out to
@@ -12,7 +12,7 @@ data:
   main.conf.tmpl: |
     play.http.secret.key="@@PLAY_HTTP_SECRET_KEY@@"
     search {
-        uri = "http://elasticsearch-client:9200"
+        uri = "http://elasticsearch-client.thehive:9200"
     }
     job {
         directory = /tmp/cortex-jobs

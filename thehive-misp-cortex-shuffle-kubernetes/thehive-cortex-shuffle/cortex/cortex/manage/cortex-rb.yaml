@@ -8,5 +8,5 @@ roleRef:
   name: job-runner
 subjects:
   - kind: ServiceAccount
-    namespace: cortex
+    namespace: thehive
     name: service123

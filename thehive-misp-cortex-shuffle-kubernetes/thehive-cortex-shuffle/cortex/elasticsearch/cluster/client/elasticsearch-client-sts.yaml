@@ -56,21 +56,21 @@ spec:
               value: '${HOSTNAME}.$(APP)-$(ROLE)'
             - name: node.roles
               value: master,voting_only
-          livenessProbe:
-            exec:
-              command:
-                - cat
-                - /tmp/healthy
-            initialDelaySeconds: 5
-            periodSeconds: 5
-          readinessProbe:
-            failureThreshold: 3
-            initialDelaySeconds: 15
-            periodSeconds: 10
-            successThreshold: 1
-            tcpSocket:
-              port: 9300
-            timeoutSeconds: 5
+          # livenessProbe:
+          #   exec:
+          #     command:
+          #       - cat
+          #       - /tmp/healthy
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 5
+          # readinessProbe:
+          #   failureThreshold: 3
+          #   initialDelaySeconds: 15
+          #   periodSeconds: 10
+          #   successThreshold: 1
+          #   tcpSocket:
+          #     port: 9300
+          #   timeoutSeconds: 5
           resources:
             limits:
               cpu: '1'
@@ -112,10 +112,18 @@ spec:
         - name: log4j2-properties
           configMap:
             name: log4j2.properties
-        - name: storage
-          emptyDir: {}
         - name: tmp
           emptyDir: {}
   updateStrategy:
     type: OnDelete
-  volumeClaimTemplates: []
+  volumeClaimTemplates:
+    - metadata:
+        name: storage
+        namespace: thehive
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: thehive-storage
+        resources:
+          requests:
+            storage: 500Mi    

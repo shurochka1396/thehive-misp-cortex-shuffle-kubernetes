@@ -13,7 +13,7 @@ images:
     newName: busybox
 
 resources:
-  - cluster/loadbalancer.yaml
+  # - cluster/loadbalancer.yaml
 
   - cluster/master/elasticsearch-master-svc.yaml
   - cluster/master/elasticsearch-master-sts.yaml

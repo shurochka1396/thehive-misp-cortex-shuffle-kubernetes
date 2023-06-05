@@ -16,9 +16,17 @@ spec:
         app: thehive
     spec:
       serviceAccountName: thehive
+      volumes:
+        - name: config
+          configMap:
+            name: thehive-conf
       containers:
         - name: thehive
           image: strangebee/thehive:5.1
+          volumeMounts:
+            - name: config
+              mountPath: /etc/thehive/application.conf
+              subPath: thehive.conf
           command:
             - "/opt/thehive/entrypoint"
             - "--secret"
@@ -26,7 +34,6 @@ spec:
             - "--cql-hostnames"
             - "cassandra"
             - "--no-cql-wait"
-            - "--no-config-cortex"
             - "--kubernetes"
             - "--index-backend"
             - "elasticsearch"
@@ -51,11 +58,11 @@ spec:
                   fieldPath: status.podIP
           resources:
             limits:
-              cpu: "1"
+              cpu: "2"
               memory: 2Gi
             requests:
-              cpu: "500m"
-              memory: 512Mi
+              cpu: "1"
+              memory: 1Gi
           # startupProbe:
           #   httpGet:
           #     path: /api/v1/status/public

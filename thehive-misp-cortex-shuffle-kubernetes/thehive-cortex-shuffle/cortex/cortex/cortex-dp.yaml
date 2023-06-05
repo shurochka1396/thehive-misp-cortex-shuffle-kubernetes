@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: cortex
-  name: release-name-cortex
+  name: vault-cortex
   labels:
     app: cortex
 spec:
@@ -21,10 +21,10 @@ spec:
       volumes:
         - name: job-io
           persistentVolumeClaim:
-            claimName: "release-name-cortex-job-io"
+            claimName: "vault-cortex-job-io"
         - name: config-templates
           configMap:
-            name: release-name-cortex-etc-c-tmpl
+            name: vault-cortex-etc-c-tmpl
         - name: etc-cortex
           emptyDir: {}
         #
@@ -48,7 +48,7 @@ spec:
             - name: PLAY_HTTP_SECRET_KEY
               valueFrom:
                 secretKeyRef:
-                  name: "release-name-cortex-play-secret"
+                  name: "vault-cortex-play-secret"
                   key: secret
             # There are no private keys to protect in this trust
             # store, so its password need not actually secure it.

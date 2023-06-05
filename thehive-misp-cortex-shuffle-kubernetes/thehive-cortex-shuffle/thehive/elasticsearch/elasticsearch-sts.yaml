@@ -56,6 +56,14 @@ spec:
           volumeMounts:
             - name: es-data
               mountPath: /usr/share/elasticsearch/data
-      volumes:
-        - name: es-data
-          emptyDir: {}
+  volumeClaimTemplates:
+    - metadata:
+        name: es-data
+        namespace: thehive
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: thehive-storage
+        resources:
+          requests:
+            storage: 500Mi          

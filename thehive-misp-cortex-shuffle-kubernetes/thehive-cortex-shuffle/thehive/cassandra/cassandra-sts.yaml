@@ -65,6 +65,15 @@ spec:
           volumeMounts:
             - name: cassandra-data
               mountPath: /var/lib/cassandra
-      volumes:
-        - name: cassandra-data
-          emptyDir: {}
+
+  volumeClaimTemplates:
+    - metadata:
+        name: cassandra-data
+        namespace: thehive
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: thehive-storage
+        resources:
+          requests:
+            storage: 500Mi      
